@@ -21,12 +21,12 @@ use Illuminate\Support\Facades\Route;
 */
                                                                //forma de nomear as rotas podendo inserir o nome desejado.
 
-Route::get('/', [PrincipalController::class, 'principal'])->name('site.index')->middleware('log.acesso');
+Route::get('/', [PrincipalController::class, 'principal'])->name('site.index');   //->middleware('log.acesso');
 Route::get('/sobre-nos', [SobreNosController::class, 'sobreNos'])->name('site.sobrenos');
 Route::get('/contato', [ContatoController::class, 'contato'])->name('site.contato');
 Route::post('/contato', [ContatoController::class, 'salvar'])->name('site.contato');
-Route::get('/login/{erro?}', [LoginController::class, 'index'])->name('site.login');
-Route::post('/login', [LoginController::class, 'autenticar'])->name('site.login');
+// Route::get('/login/{erro?}', [LoginController::class, 'index'])->name('site.login');
+// Route::post('/login', [LoginController::class, 'autenticar'])->name('site.login');
 
 
 Route::middleware('autenticacao:padrao, visitante')->prefix('/app')->group(function() {                 //agrupamento de rotas

@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\MotivoContato;
 use Illuminate\Http\Request;
 use \App\Models\SiteContato;
+use App\Models\MotivoContato;
 
 class ContatoController extends Controller
 {
     public function contato(Request $request){
-
-        $motivo_contatos = $motivo_contatos = MotivoContato::all();
+        
+        $motivo_contatos = MotivoContato::all();
        /*
         $contato = new SiteContato();
         $contato->nome = $request->input('nome');
@@ -44,6 +44,7 @@ class ContatoController extends Controller
             'nome.min'=>'O campo nome precisa ter no mínimo 3 caracteres',
             'nome.max'=>'O campo nome deve ter no máximo 40 caracteres',
             'nome.unique'=>'O nome informado já está em uso',
+            'motivo_contatos_id.required'=>'O campo dúvida deve ser preenchido',
             
             'email'=>'O email informado não é válido',
             'required'=>'O campo :attribute deve ser preenchido',
