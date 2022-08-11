@@ -4,9 +4,6 @@ use App\Http\Controllers\ContatoController;
 use App\Http\Controllers\FornecedorController;
 use App\Http\Controllers\PrincipalController;
 use App\Http\Controllers\SobreNosController;
-use App\Http\Controllers\TesteController;
-use App\Http\Controllers\LoginController;
-use App\Http\Middleware\LogAcessoMiddleware;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,44 +16,27 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-                                                               //forma de nomear as rotas podendo inserir o nome desejado.
-
-Route::get('/', [PrincipalController::class, 'principal'])->name('site.index');   //->middleware('log.acesso');
+                                                           
+Route::get('/', [PrincipalController::class, 'principal'])->name('site.index');
+    
 Route::get('/sobre-nos', [SobreNosController::class, 'sobreNos'])->name('site.sobrenos');
+
 Route::get('/contato', [ContatoController::class, 'contato'])->name('site.contato');
 Route::post('/contato', [ContatoController::class, 'salvar'])->name('site.contato');
 // Route::get('/login/{erro?}', [LoginController::class, 'index'])->name('site.login');
 // Route::post('/login', [LoginController::class, 'autenticar'])->name('site.login');
-
-
-Route::middleware('autenticacao:padrao, visitante')->prefix('/app')->group(function() {                 //agrupamento de rotas
-    Route::get('/clientes',function(){ return 'Clientes';})->name('app.clientes');
-    Route::get('/fornecedores', [FornecedorController::class, 'index'])->name('app.fornecedores');
-    Route::get('/produtos', function(){ return 'Produtos';})->name('app.produtos');
-
+Route::middleware('autenticacao:padrao,visitante')
+    ->prefix('/app')->group(function() {                 //agrupamento de rotas
+        Route::get('/clientes',function(){ return 'Clientes';})->name('app.clientes');
+        Route::get('/fornecedores', [FornecedorController::class, 'index'])->name('app.fornecedores');
+        Route::get('/produtos', function(){ return 'Produtos';})->name('app.produtos');
 });
-
-// ---------------------------------------------------------------------------
-Route::get('/rota1', function(){
-    echo 'Rota 1';
-})->name('site.rota1');
-
-Route::get('/rota2', function(){                   //redirecionamento de rota com redirect
-    return redirect() -> route('site.rota1');
-})->name('site.rota2');
-
-//Route::redirect('/rota2', '/rota1');
-//-----------------------------------------------------------------------------
-
-//Rota de fallback , caso o usuário acesse uma rota inexistente.
 
 Route::fallback(function(){
     echo 'A rota acessada não existe. <a href="'.route('site.index').'">clique aqui</a> para ir a página inicial';
 });
 
-//-------------------------------------------------------
 
-Route::get('/teste/{p1}/{p2}', [TesteController::class, 'teste'])->name('teste');
 
 
 
