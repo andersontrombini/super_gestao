@@ -1,8 +1,12 @@
 <?php
 
+use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ContatoController;
 use App\Http\Controllers\FornecedorController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PrincipalController;
+use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\SobreNosController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,63 +27,18 @@ Route::get('/sobre-nos', [SobreNosController::class, 'sobreNos'])->name('site.so
 
 Route::get('/contato', [ContatoController::class, 'contato'])->name('site.contato');
 Route::post('/contato', [ContatoController::class, 'salvar'])->name('site.contato');
-// Route::get('/login/{erro?}', [LoginController::class, 'index'])->name('site.login');
-// Route::post('/login', [LoginController::class, 'autenticar'])->name('site.login');
+Route::get('/login/{erro?}', [LoginController::class, 'index'])->name('site.login');
+Route::post('/login', [LoginController::class, 'autenticar'])->name('site.login');
+
 Route::middleware('autenticacao:padrao,visitante')
-    ->prefix('/app')->group(function() {                 //agrupamento de rotas
-        Route::get('/clientes',function(){ return 'Clientes';})->name('app.clientes');
-        Route::get('/fornecedores', [FornecedorController::class, 'index'])->name('app.fornecedores');
-        Route::get('/produtos', function(){ return 'Produtos';})->name('app.produtos');
+    ->prefix('/app')->group(function() { 
+        Route::get('/home',[HomeController::class, 'index'])->name('app.home');                
+        Route::get('/sair',[LoginController::class, 'sair'])->name('app.sair');                
+        Route::get('/cliente',[ClienteController::class, 'index'])->name('app.cliente');
+        Route::get('/fornecedor', [FornecedorController::class, 'index'])->name('app.fornecedor');
+        Route::get('/produto', [ProdutoController::class, 'index'])->name('app.produto');
 });
 
 Route::fallback(function(){
     echo 'A rota acessada não existe. <a href="'.route('site.index').'">clique aqui</a> para ir a página inicial';
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//------------------------------------------------------------ exemplos simples
-//rota com parâmetro
-/*Route::get('/contato/{nome}/{idade?}/{etinia?}', function (string $nome, float $idade =null, string $etinia = null) {
-    echo "Me chamo " . $nome . " tenho " . $idade . "anos" . " e minha raça é " . $etinia;
-});
-//--------------------
-//rota com parâmetro opicional -> basta colocar o caractere interrogação a direita e atribuir um valor a variável caso não
-//seja declarada.
-//--------------------
-
-
-Route::get('/contato/{nome}/{categoria_id}/', function (
-    string $nome= 'desconhecido', 
-    int $categoria_id = 1 , 
-    ) {
-    echo "Me chamo " . $nome . " tenho " . $categoria_id;
-})->where('categoria_id','[0-9]+')->where('nome','[A-Za-z]+'); // forma de estabeleer expressões regulares.
-
-
-
-/*Route::get('/sobre-nos', function () {
-    return 'Sobre nós!';
-});*/
-

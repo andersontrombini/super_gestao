@@ -20,7 +20,7 @@ class LoginController extends Controller
             $erro = 'Necessário realizar login para ter acesso a página';
         }
 
-        return view('site.login', ['titulo' => 'login', 'erro' =>$erro]);
+        return view('site.login', ['titulo' => 'login', 'erro' => $erro]);
     }
 
     public function autenticar(Request $request)
@@ -42,9 +42,12 @@ class LoginController extends Controller
         $email = $request->get('usuario');
         $senha = $request->get('senha');
 
-        //iniciar o model
+        //iniciando o model
         $user = new User();
-        $usuario = $user->where('email', $email)->where('password', $senha)->get()->first();
+        $usuario = $user->where('email', $email)
+            ->where('password', $senha)
+            ->get()
+            ->first();
 
         if (isset($usuario->name)) {
             
@@ -52,10 +55,17 @@ class LoginController extends Controller
             $_SESSION['nome'] = $usuario->name;
             $_SESSION['email'] = $usuario->email;
 
-            return redirect()->route('app.clientes');
+
+            return redirect()->route('app.home');
 
         } else {
             return redirect()->route('site.login', ['erro' =>1]);
         }
+    }
+
+    public function sair() {
+
+        session_destroy();
+        return redirect()->route('site.index');
     }
 }
