@@ -36,6 +36,7 @@ Route::middleware('autenticacao:padrao,visitante')
         Route::get('/sair',[LoginController::class, 'sair'])->name('app.sair');                
         Route::get('/cliente',[ClienteController::class, 'index'])->name('app.cliente');
 
+        //fornecedor routes
         Route::get('/fornecedor', [FornecedorController::class, 'index'])->name('app.fornecedor');
         Route::post('/fornecedor/listar', [FornecedorController::class, 'listar'])->name('app.fornecedor.listar');
         Route::get('/fornecedor/listar', [FornecedorController::class, 'listar'])->name('app.fornecedor.listar');
@@ -44,7 +45,8 @@ Route::middleware('autenticacao:padrao,visitante')
         Route::get('/fornecedor/editar/{id}/{msg?}', [FornecedorController::class, 'editar'])->name('app.fornecedor.editar');
         Route::get('/fornecedor/excluir/{id}', [FornecedorController::class, 'excluir'])->name('app.fornecedor.excluir');
 
-        Route::get('/produto', [ProdutoController::class, 'index'])->name('app.produto');
+        //produto routes
+        Route::resource('produto', ProdutoController::class);
 });
 
 Route::fallback(function(){
