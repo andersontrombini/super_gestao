@@ -58,7 +58,6 @@ class ProdutoController extends Controller
 
         $request->validate($regras, $feedback);
 
-        $produto = Produto::all();
         Produto::create($request->all());
         return redirect()->route('produto.index');
     }
@@ -83,10 +82,12 @@ class ProdutoController extends Controller
      */
     public function edit(Produto $produto)
     {
-        //
+        $unidades = Unidade::all();
+        return view('app.produto.edit', compact('produto','unidades'));
     }
 
     /**
+     * 
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -95,7 +96,8 @@ class ProdutoController extends Controller
      */
     public function update(Request $request, Produto $produto)
     {
-        //
+        $produto->update($request->all());
+        return redirect()->route('produto.show',['produto' => $produto->id]);
     }
 
     /**
@@ -106,6 +108,7 @@ class ProdutoController extends Controller
      */
     public function destroy(Produto $produto)
     {
-        //
+        $produto->delete();
+        return redirect()->route('produto.index');
     }
 }
