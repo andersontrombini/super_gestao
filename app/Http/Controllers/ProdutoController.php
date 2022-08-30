@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Produto;
+use App\Models\item;
+use App\Models\ProdutoDetalhe;
 use App\Models\Unidade;
 use Illuminate\Http\Request;
 
@@ -15,7 +17,7 @@ class ProdutoController extends Controller
      */
     public function index(Request $request)
     {
-        $produtos = Produto::paginate(3);
+        $produtos = Item::paginate(6);
 
         return view('app.produto.index', ['produtos' => $produtos, 'request' => $request->all()]);
     }
@@ -45,7 +47,7 @@ class ProdutoController extends Controller
             'peso' => 'required|integer',
             'unidade_id' => 'exists:unidades,id',
         ];
-        
+
         $feedback = [
             'required' => 'O campo :attribute deve ser preenchido',
             'nome.min' => 'O campo nome deve ter no mínimo 3 caracteres',
@@ -70,7 +72,7 @@ class ProdutoController extends Controller
      */
     public function show(Produto $produto)
     {
-        
+
         return view('app.produto.show', compact('produto'));
     }
 
@@ -83,8 +85,8 @@ class ProdutoController extends Controller
     public function edit(Produto $produto)
     {
         $unidades = Unidade::all();
-       return view('app.produto.edit', compact('produto','unidades'));
-       // return view('app.produto.create', compact('produto','unidades'));
+        return view('app.produto.edit', compact('produto', 'unidades'));
+        // return view('app.produto.create', compact('produto','unidades'));
     }
 
     /**
@@ -98,7 +100,7 @@ class ProdutoController extends Controller
     public function update(Request $request, Produto $produto)
     {
         $produto->update($request->all());
-        return redirect()->route('produto.show',['produto' => $produto->id]);
+        return redirect()->route('produto.show', ['produto' => $produto->id]);
     }
 
     /**
