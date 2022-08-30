@@ -18,7 +18,7 @@ class Item extends Model
         'unidade_id'
     ];
 
-    public function produtoDetalhe(){
+    public function itemDetalhe(){
         return $this->hasOne(ItemDetalhe::class, 'produto_id', 'id');
     }
 }
