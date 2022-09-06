@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Pedido extends Model
 {
     use HasFactory;
+
+    public function produtos() {
+        return $this->belongsToMany(Item::class, 'pedido_produtos','pedido_id','produto_id');
+    }
 }
