@@ -25,12 +25,11 @@ class LoginController extends Controller
 
     public function autenticar(Request $request)
     {
-        //regras de validação
         $regras = [
             'usuario' => 'email',
             'senha' =>'required'
         ];
-        //retorno das mensagens
+
         $feedback = [
             'usuario.email' => 'O campo usuário (e-mail) é obrigatório',
             'senha.required' =>'O campo senha é obrigatório'
@@ -38,11 +37,9 @@ class LoginController extends Controller
 
         $request->validate($regras, $feedback);
 
-        //recuperando os parametros
         $email = $request->get('usuario');
         $senha = $request->get('senha');
 
-        //iniciando o model
         $user = new User();
         $usuario = $user->where('email', $email)
             ->where('password', $senha)
@@ -54,7 +51,6 @@ class LoginController extends Controller
             session_start();
             $_SESSION['nome'] = $usuario->name;
             $_SESSION['email'] = $usuario->email;
-
 
             return redirect()->route('app.home');
 

@@ -26,9 +26,9 @@ class FornecedorController extends Controller
     public function adicionar(Request $request)
     {
         $msg = false;
-        //inclusão
+        
         if ($request->input('_token') != '' && $request->input('id') == '') {
-            //validate
+            
             $regras = [
                 'nome' => 'required|min:3|max:40',
                 'site' => 'required',
@@ -47,14 +47,12 @@ class FornecedorController extends Controller
 
             $request->validate($regras, $feedback);
 
-            //grava no bd
             $fornecedor = new Fornecedor();
             $fornecedor->create($request->all());
 
             $msg = 'Cadastro realizado com sucesso';
         }
 
-        //edição
         if ($request->input('_token') != '' && $request->input('id') != '') {
             $fornecedor = Fornecedor::find($request->input('id'));
             $update = $fornecedor->update($request->all());
