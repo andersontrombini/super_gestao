@@ -10,6 +10,6 @@ class Pedido extends Model
     use HasFactory;
 
     public function produtos() {
-        return $this->belongsToMany(Item::class, 'pedido_produtos','pedido_id','produto_id');
+        return $this->belongsToMany(Item::class, 'pedido_produtos','pedido_id','produto_id')->withPivot('id','created_at');
     }
 }
